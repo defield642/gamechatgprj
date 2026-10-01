@@ -2,59 +2,97 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Multiplayer Tic-Tac-Toe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#070a12">
+  <title>Tic-Tac-Toe · Multiplayer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="app">
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <main id="app">
     <!-- Lobby -->
-    <div id="lobby" class="screen active">
-      <h1>Multiplayer Tic-Tac-Toe</h1>
-      <p class="subtitle">Play with a friend on another device</p>
+    <section id="lobby" class="screen active">
+      <header class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+        </div>
+        <h1>Tic-Tac-Toe</h1>
+        <p class="tagline">Real-time multiplayer · Play from any device</p>
+      </header>
+
       <div class="card">
-        <label for="name">Your Name</label>
-        <input type="text" id="name" placeholder="Enter your name" maxlength="20">
-        <button id="create-btn">Create Room</button>
-        <div class="divider">or</div>
-        <label for="room-code">Room Code</label>
-        <input type="text" id="room-code" placeholder="Enter 4-letter code" maxlength="4" style="text-transform: uppercase;">
-        <button id="join-btn">Join Room</button>
-        <p id="lobby-error" class="error"></p>
+        <div class="field">
+          <label for="name">Your name</label>
+          <input type="text" id="name" placeholder="e.g. Alex" maxlength="20" autocomplete="off">
+        </div>
+
+        <button id="create-btn" class="btn btn-primary">Create a room</button>
+
+        <div class="divider"><span>or join with a code</span></div>
+
+        <div class="field">
+          <label for="room-code">Room code</label>
+          <input type="text" id="room-code" placeholder="ABCD" maxlength="4" autocomplete="off" spellcheck="false">
+        </div>
+
+        <button id="join-btn" class="btn btn-ghost">Join room</button>
+
+        <p id="lobby-error" class="alert" role="alert"></p>
       </div>
+
       <div class="rules">
-        <h2>How to Play</h2>
-        <ul>
-          <li>Create a room and share the code with a friend.</li>
-          <li>Player X goes first.</li>
-          <li>Take turns clicking empty squares.</li>
-          <li>Get three in a row to win.</li>
-          <li>If all squares are full, it's a draw.</li>
-        </ul>
+        <h2>How to play</h2>
+        <ol>
+          <li>Create a room and share the 4-letter code with a friend.</li>
+          <li>They join from their own device.</li>
+          <li>Player <strong>X</strong> goes first. Take turns placing marks.</li>
+          <li>Get three in a row to win. A full board with no line is a draw.</li>
+        </ol>
       </div>
-    </div>
+    </section>
 
     <!-- Game -->
-    <div id="game" class="screen">
-      <div class="game-header">
-        <h2>Room: <span id="room-code-display"></span></h2>
-        <button id="leave-btn" class="secondary">Leave</button>
-      </div>
+    <section id="game" class="screen">
+      <header class="game-header">
+        <div class="room-info">
+          <span class="label">Room</span>
+          <button id="copy-code" class="room-code" title="Copy room code" type="button">
+            <span id="room-code-display">····</span>
+            <svg class="copy-icon" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </button>
+        </div>
+        <button id="leave-btn" class="btn btn-quiet" type="button">Leave</button>
+      </header>
+
       <div class="players">
         <div id="player-x" class="player">
           <span class="symbol">X</span>
-          <span class="player-name">Waiting...</span>
+          <span class="player-name">Waiting…</span>
         </div>
         <div id="player-o" class="player">
           <span class="symbol">O</span>
-          <span class="player-name">Waiting...</span>
+          <span class="player-name">Waiting…</span>
         </div>
       </div>
-      <p id="status-message" class="status">Waiting for opponent...</p>
-      <div id="board" class="board"></div>
-      <button id="rematch-btn" class="hidden">Rematch</button>
-    </div>
-  </div>
+
+      <p id="status-message" class="status">Waiting for opponent…</p>
+
+      <div id="board" class="board" aria-label="Game board"></div>
+
+      <button id="rematch-btn" class="btn btn-primary hidden" type="button">Play again</button>
+    </section>
+  </main>
+
   <script src="/socket.io/socket.io.js"></script>
   <script src="client.js"></script>
 </body>
